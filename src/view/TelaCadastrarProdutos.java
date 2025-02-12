@@ -1,0 +1,158 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package view;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import dados.SessaoUsuario;
+import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+import banco.Banco;
+import dados.DadosUsuario;
+/**
+ *
+ * @author User
+ */
+public class TelaCadastrarProdutos extends javax.swing.JFrame {
+  private JPanel contentPane;
+    private FileInputStream fis;
+    private String imagePath;
+    private JButton jButton1;
+    private JLabel picLabel;
+    private JTextField campoNome;
+    private JTextField campoPreco;
+    private JTextField campoQuantidade;
+    private JLabel photoLabel;
+    private JButton botaoConcluir;
+    private Banco banco;
+    private String quantidade;
+    private String nome;
+    private String preco;
+    /**
+     * Creates new form TelaCadastrarProdutos
+     */
+    public TelaCadastrarProdutos() {
+        initComponents();
+        this.setTitle("Tela Cadastrar produtos"); 
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+        this.setSize(1400, 800);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+        contentPane.setLayout(null);
+        setContentPane(contentPane);
+        banco = new Banco();
+       
+  
+        picLabel = new JLabel(new ImageIcon(getClass().getResource("iconfoto.png")));
+        picLabel.setBounds(900, 250, 300, 250);
+        contentPane.add(picLabel);
+        botaoConcluir = new JButton(new ImageIcon(getClass().getResource("concluir-removebg-preview.png")));
+        botaoConcluir.setBounds(220, 680, 150, 30);
+        botaoConcluir.addActionListener(e -> botaoConcluirMetodo());
+        contentPane.add(botaoConcluir);
+        jButton1 = new JButton(new ImageIcon(getClass().getResource("selecionarsemfundo.png")));
+        jButton1.setBounds(1000, 550, 150, 30);
+        jButton1.addActionListener(e -> selecionarImagem());
+        contentPane.add(jButton1);
+        campoNome = new JTextField();
+        campoNome.setText("");
+        campoNome.setBorder(new LineBorder(Color.BLACK, 1));
+        campoNome.setBounds(350, 250, 250,50);
+        contentPane.add(campoNome);
+        campoPreco = new JTextField();
+        campoPreco.setText("");
+        campoPreco.setBorder(new LineBorder(Color.BLACK , 1));
+        campoPreco.setBounds(350, 335, 250, 50);
+        contentPane.add(campoPreco);
+        campoQuantidade = new JTextField();
+        campoQuantidade.setText("");
+        campoQuantidade.setBorder(new LineBorder(Color.BLACK , 1));
+        campoQuantidade.setBounds(400, 440, 250, 50);
+        contentPane.add(campoQuantidade);
+        photoLabel = new JLabel(new ImageIcon(getClass().getResource("cadastrarProduto.png")));
+        photoLabel.setBounds(-10, -10, 1400, 800);
+        contentPane.add(photoLabel);
+
+        
+        
+         this.setVisible(true);
+
+    }
+         private void selecionarImagem() {
+        JFileChooser jfc = new JFileChooser();
+        jfc.setDialogTitle("Selecionar Arquivo");
+        jfc.setFileFilter(new FileNameExtensionFilter("Arquivo de Imagens (*.PNG, *.JPG, *.JPEG)", "png", "jpg", "jpeg"));
+        int resultado = jfc.showOpenDialog(this);
+        if (resultado == JFileChooser.APPROVE_OPTION) {
+            try {
+                File selectedFile = jfc.getSelectedFile();
+                imagePath = selectedFile.getAbsolutePath();
+                System.out.println("Caminho da imagem selecionada: " + imagePath);
+                carregarImagem();  
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+             System.out.println(imagePath);
+    }
+    private void carregarImagem() throws IOException {
+        BufferedImage myPicture = ImageIO.read(new File(imagePath)); 
+        picLabel.setIcon(new ImageIcon(myPicture));
+        contentPane.revalidate();
+        contentPane.repaint();
+    }
+
+private void botaoConcluirMetodo()
+      {
+          nome = campoNome.getText();
+          preco = campoPreco.getText();
+          quantidade = campoQuantidade.getText();
+          System.out.println(nome);
+          System.out.println(preco);
+          System.out.println(quantidade);
+          System.out.println(imagePath);
+          banco.inserirDadosCardapio(nome, preco, quantidade, imagePath);
+}
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    /**
+     * @param args the command line arguments
+     */
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // End of variables declaration//GEN-END:variables
+}
