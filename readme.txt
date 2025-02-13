@@ -1,4 +1,1 @@
-
-primeiro projeto git 
-
-alterando
+Esse projeto é um software para uma cafeteria foi desenvolvido com objetivo de entender como crud funciona.
